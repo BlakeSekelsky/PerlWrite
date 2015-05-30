@@ -3,7 +3,6 @@ Computer Science Final Project
 Author: Blake Sekelsky
 
 GUI.java
-
 Holds the UI frontend of the program, as well as backend functions for running the Perl scripts and opening/saving in the editor
 */
 
