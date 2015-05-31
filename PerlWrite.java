@@ -1,9 +1,10 @@
 /*
 Computer Science Final Project
 
-PerlWrite.java
 Author: Blake Sekelsky
 
+PerlWrite.java
+Nothing special, just initializes Program
 */
 
 import java.io.*;
