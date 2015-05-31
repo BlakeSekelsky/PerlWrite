@@ -3,7 +3,8 @@ Computer Science Final Project
 Author: Blake Sekelsky
 
 GUI.java
-Holds the UI frontend of the program, as well as backend functions for running the Perl scripts and opening/saving in the editor
+Holds the UI frontend of the program, as well as backend functions for running
+the Perl scripts and opening/saving in the editor
 */
 
 import java.io.*;
@@ -15,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.Component;
 import java.nio.file.Files;
 import java.util.logging.Level;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class GUI
 {
@@ -22,6 +25,12 @@ public class GUI
    public JPanel panel = new JPanel();
    public JTextArea text = new JTextArea(); 
    public JScrollPane scroll = new JScrollPane(text);
+   public String activeScript = "";
+   public String activeScriptpwd = "";
+   public String activeScriptname = "";
+   public File f;
+   public Path p;
+   public String file;
     
     void createGUI(){
         //Setup panel
@@ -44,32 +53,41 @@ public class GUI
         //Run Button
         JButton runBtn = new JButton("Run Script");
         runBtn.setHorizontalAlignment(SwingConstants.CENTER);
-        runBtn.setLocation(10, 20);
+        runBtn.setLocation(10, 80);
         runBtn.setSize(105, 50);
         
         //Clear Console Button
         JButton clrBtn = new JButton("Clear Console");
         clrBtn.setHorizontalAlignment(SwingConstants.CENTER);
-        clrBtn.setLocation(125, 20);
+        clrBtn.setLocation(125, 80);
         clrBtn.setSize(105, 50);
         
         //New Script Button
         JButton newBtn = new JButton("New Script");
         newBtn.setHorizontalAlignment(SwingConstants.CENTER);
-        newBtn.setLocation(10, 80);
+        newBtn.setLocation(10, 20);
         newBtn.setSize(220, 50);
         
         //Open Script Button
         JButton opnBtn = new JButton("Open Script");
         opnBtn.setHorizontalAlignment(SwingConstants.CENTER);
         opnBtn.setLocation(10, 140);
-        opnBtn.setSize(220, 50);
+        opnBtn.setSize(105, 50);
+        
+        //Save Script Button
+        JButton svBtn = new JButton("Save Script");
+        svBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        svBtn.setLocation(125, 140);
+        svBtn.setSize(105, 50);
+        
+        
         
         //Adding UI
         frame2.add(clrBtn);
         frame2.add(runBtn);
         frame2.add(newBtn);
         frame2.add(opnBtn);
+        frame2.add(svBtn);
 
         //Init Window
         frame2.setLayout(null);
@@ -80,17 +98,33 @@ public class GUI
         frame2.setVisible(true);
         
         //Action Handlers
+        svBtn.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                try{
+                    file = JOptionPane.showInputDialog(null, "Enter perl script name to save: ");
+                    String s = text.getText();
+                    byte writeData[] = s.getBytes();
+                    FileOutputStream out = new FileOutputStream(file);
+                    out.write(writeData);
+                    out.flush();
+                    out.close();
+                }
+                catch(Exception ex3){
+                    System.out.println(ex3.toString());
+                }
+            }
+        });
+        
         opnBtn.addActionListener(new ActionListener(){
            public void actionPerformed(ActionEvent e){
                try{
-                   JFileChooser fileChooser = new JFileChooser();
-                   fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-                   int returnVal = fileChooser.showOpenDialog(null);
-                   File selectedFile = fileChooser.getSelectedFile();
+                   file = JOptionPane.showInputDialog(null, "Enter perl script name to open: ");
+                   p = Paths.get(file);
                     
                    String str ;
                    try {
-                       byte bt[]= Files.readAllBytes(selectedFile.toPath());   
+
+                       byte bt[]= Files.readAllBytes(p);   
                        str=new String(bt,"UTF-8");
                        text.setText(str);
                    }
@@ -119,7 +153,7 @@ public class GUI
         runBtn.addActionListener(new ActionListener(){
  
             public void actionPerformed(ActionEvent e){
-                executeScript("test.pl");
+                executeScript(activeScript);
             }
         });
     }
@@ -128,7 +162,10 @@ public class GUI
         Process process;
 
         try{
-            process = Runtime.getRuntime().exec("perl " + fileName);
+            String cmd = ("perl " + file);
+            
+            System.out.println(cmd);
+            process = Runtime.getRuntime().exec(cmd); 
             process.waitFor();
             if(process.exitValue() == 0){
                 try {
@@ -151,4 +188,3 @@ public class GUI
         }
    }
 }
-
