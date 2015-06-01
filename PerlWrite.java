@@ -1,4 +1,6 @@
 /*
+Follows the GNU Public License.
+
 Computer Science Final Project
 
 Author: Blake Sekelsky
