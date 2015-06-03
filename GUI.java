@@ -8,7 +8,6 @@ the Perl scripts and opening/saving in the editor
 */
 
 import java.io.*;
-import java.awt.FlowLayout;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -53,7 +52,8 @@ public class GUI
         JMenuItem clearConsoleAction = new JMenuItem("Clear Console");
         JMenuItem openAction = new JMenuItem("Open");
         JMenuItem exitAction = new JMenuItem("Exit");
-         
+        
+        //Adds buttns group to the menu bar
         ButtonGroup bg = new ButtonGroup();
         fileMenu.add(newAction);
         fileMenu.add(saveAction);
@@ -70,6 +70,7 @@ public class GUI
             }
         });
         
+        //Saves file to the program's local directory
         saveAction.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try{
@@ -87,6 +88,7 @@ public class GUI
             }
         });
         
+        //Opens file in the program's local directory
         openAction.addActionListener(new ActionListener(){
            public void actionPerformed(ActionEvent e){
                try{
@@ -119,7 +121,7 @@ public class GUI
         executeAction.addActionListener(new ActionListener(){
  
             public void actionPerformed(ActionEvent e){
-                executeScript(activeScript);
+                executeScript(activeScript); //Calls executeScript with the script's file location variable
             }
         });
         
@@ -140,14 +142,19 @@ public class GUI
    }
    
    void executeScript(String fileName){
-        Process process;
+        Process process; //Creates new process
 
         try{
+            //runs a terminal command that runs the Perl Script
             String cmd = ("perl " + file);
             
             System.out.println(cmd);
             process = Runtime.getRuntime().exec(cmd); 
             process.waitFor();
+            
+            /*
+             * if the process returns 0, read the program's buffer and print it out.
+             */
             if(process.exitValue() == 0){
                 try {
                     BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
