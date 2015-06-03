@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 
 public class GUI
 {
+   //Initializing global variables and GUI elements
    public JFrame frame = new JFrame("PerlWrite");
    public JTextArea text = new JTextArea(); 
    public JScrollPane scroll = new JScrollPane(text);
@@ -36,10 +37,8 @@ public class GUI
         // Creates a menubar for a JFrame
         JMenuBar menuBar = new JMenuBar();
         JPanel panel = new JPanel();
-        
         panel.setLayout(new BorderLayout());
-        panel.add(text);
-        frame.add(text);
+        frame.add(scroll);
                  
         // Define and add two drop down menu to the menubar
         JMenu fileMenu = new JMenu("File");
@@ -133,7 +132,7 @@ public class GUI
         
         //Frame declarations
         frame.setJMenuBar(menuBar);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setSize(640, 480);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
