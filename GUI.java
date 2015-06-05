@@ -1,6 +1,11 @@
 /*
 Computer Science Final Project
+
 Author: Blake Sekelsky
+
+PerlWrite
+Program that allows you to run Perl(.pl) scripts. Basic text editor that allows perl scripting with saving,
+opening, as well as clearing console, and running the script.
 
 GUI.java
 Holds the UI frontend of the program, as well as backend functions for running
@@ -36,6 +41,7 @@ public class GUI
         // Creates a menubar for a JFrame
         JMenuBar menuBar = new JMenuBar();
         JPanel panel = new JPanel();
+        text.setTabSize(2);
         panel.setLayout(new BorderLayout());
         frame.add(scroll);
                  
@@ -65,7 +71,7 @@ public class GUI
 
         //Listeners
         clearConsoleAction.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(ActionEvent e) {
                 System.out.print("\f");
             }
         });
